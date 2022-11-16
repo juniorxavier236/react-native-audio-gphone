@@ -14,16 +14,16 @@ class AudioGphone: NSObject {
   }
 
 
-    @objc
-    func initPlay(options: NSDictionary)->Bool {
-        // TODO: Setup
-        //engine = AVAudioEngine()
-        player = AVAudioPlayerNode()
-        try? AVAudioSession.sharedInstance().setCategory(.playback)
+    // @objc
+    // func initPlay(options: NSDictionary)->Bool {
+    //     // TODO: Setup
+    //     //engine = AVAudioEngine()
+    //     player = AVAudioPlayerNode()
+    //     try? AVAudioSession.sharedInstance().setCategory(.playback)
 
-        player.play()
+    //     player.play()
 
-        return true
-    }
+    //     return true
+    // }
 
 }
