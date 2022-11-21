@@ -2,9 +2,11 @@
 
 @interface RCT_EXTERN_MODULE(AudioGphone, NSObject)
 
-RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(initPlayAudio:(NSString))
+
+
+RCT_EXTERN_METHOD(writePlayAudio:(NSString))
+
 
 + (BOOL)requiresMainQueueSetup
 {

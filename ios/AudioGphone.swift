@@ -4,26 +4,20 @@ import AVFoundation
 @objc(AudioGphone)
 class AudioGphone: NSObject {
 
-    var engine: AVAudioEngine!
-    var player: AVAudioPlayerNode!
-    
 
-  @objc(multiply:withB:withResolver:withRejecter:)
-  func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-    resolve(a*b)
+ @objc(initPlayAudio:)
+  func initPlayAudio(data: String) -> Void {
+  
+  }
+
+  @objc(writePlayAudio:)
+  func writePlayAudio(base64: String) -> Void {
+
+    let payload = Data(base64Encoded: base64, options: .ignoreUnknownCharacters)!
+
+
   }
 
 
-    // @objc
-    // func initPlay(options: NSDictionary)->Bool {
-    //     // TODO: Setup
-    //     //engine = AVAudioEngine()
-    //     player = AVAudioPlayerNode()
-    //     try? AVAudioSession.sharedInstance().setCategory(.playback)
-
-    //     player.play()
-
-    //     return true
-    // }
 
 }

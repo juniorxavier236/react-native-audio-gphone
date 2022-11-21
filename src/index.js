@@ -17,12 +17,14 @@ const AudioGphone = NativeModules.AudioGphone
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return AudioGphone.multiply(a, b);
-}
-
-export function initPlay(options:object): boolean {
+export function initPlay(options) {
   return AudioGphone.initPlay(options);
 }
+
+export function writePlay(base64){
+  return AudioGphone.writePlay(base64);
+}
+
+
 
 

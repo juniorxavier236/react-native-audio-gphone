@@ -11,12 +11,15 @@ npm install react-native-audio-gphone
 ## Usage
 
 ```js
-import { multiply } from 'react-native-audio-gphone';
+import { initPlayAudio,writePlayAudio } from 'react-native-audio-gphone';
 
 // ...
 
-const result = await multiply(3, 7);
+initPlayAudio();
+writePlayAudio(BASE64);
+
 ```
+
 
 ## Contributing
 
