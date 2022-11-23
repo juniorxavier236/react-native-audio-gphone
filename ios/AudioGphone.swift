@@ -386,7 +386,7 @@ class AudioGphone: NSObject {
   }
 
 override convenience init() {
-    self.init(bufferSize: 2048, sampleRate: 8000, nChannels:1)
+    self.init(bufferSize: 4096, sampleRate: 8000, nChannels:1)
 }
 
 
