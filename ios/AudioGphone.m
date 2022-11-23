@@ -2,7 +2,7 @@
 
 @interface RCT_EXTERN_MODULE(AudioGphone, NSObject)
 
-RCT_EXTERN_METHOD(initPlayAudio:(NSString))
+ RCT_EXTERN_METHOD(initPlayAudio:(NSString))
 
 
 RCT_EXTERN_METHOD(writePlayAudio:(NSString))
@@ -12,5 +12,9 @@ RCT_EXTERN_METHOD(writePlayAudio:(NSString))
 {
   return NO;
 }
+
+
+
+
 
 @end

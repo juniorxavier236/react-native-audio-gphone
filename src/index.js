@@ -17,12 +17,13 @@ const AudioGphone = NativeModules.AudioGphone
       }
     );
 
-export function initPlay(options) {
-  return AudioGphone.initPlay(options);
+
+ export function initPlayAudio(options) {
+  return AudioGphone.initPlayAudio(options);
 }
 
-export function writePlay(base64){
-  return AudioGphone.writePlay(base64);
+export function writePlayAudio(base64){
+  return AudioGphone.writePlayAudio(base64);
 }
 
 
