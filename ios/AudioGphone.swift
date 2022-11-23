@@ -45,9 +45,12 @@ class AudioGphone: NSObject {
   private let pcmType: PCMType
 
 
-//  @objc(initPlayAudio:)
-//   func initPlayAudio(data: String) -> Void {
+ @objc(initPlay:)
+  func initPlay(data: String) -> Void {
+
+  }
   
+
   init(bufferSize: Int, sampleRate: Int, nChannels: Int) {
 
 //    init?() {
@@ -62,13 +65,13 @@ class AudioGphone: NSObject {
       nChannels == 1 || nChannels == 2,
       "Only support one or two channels")
 
-    let session = AVAudioSession.sharedInstance()
-    do {
-      try session.setCategory(.playback, mode: .default)
-    } catch {
-      //logger.error("\(error.localizedDescription)")
-    //   return nil
-    }
+    // let session = AVAudioSession.sharedInstance()
+    // do {
+    //   try session.setCategory(.playback, mode: .default)
+    // } catch {
+    //   //logger.error("\(error.localizedDescription)")
+    // //   return nil
+    // }
 
     // init?(commonFormat: AVAudioCommonFormat, sampleRate: Double, channels: AVAudioChannelCount, interleaved: Bool)
     // Initializes a newly allocated audio format instance
@@ -115,8 +118,11 @@ class AudioGphone: NSObject {
     return PlayState.Stopped.rawValue
   }
 
- @objc(initPlayAudio:)
-   func initPlayAudio(data: String) -> Void {
+ @objc(startPlay:rejecter:)
+   func startPlay(
+        resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
+    ) -> Void  {
     if !audioEngine.isRunning {
       //logger.error("audio engine is not running")
       do {
@@ -125,7 +131,8 @@ class AudioGphone: NSObject {
         // logger.debug("<-- starting audio engine")
       } catch {
         //logger.error("\(error.localizedDescription)")
-       // return false
+        return reject("AudioGphone", "Play not start",nil)
+
       }
     }
     // logger.debug("--> starting player")
@@ -167,10 +174,15 @@ class AudioGphone: NSObject {
       }
     }
 
-   // return true
+    return resolve("Play start")
   }
 
-  func stop() -> Bool {
+
+ @objc(stopPlay:rejecter:)
+  func stopPlay(
+        resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
+    ) -> Void {
     defer {
       clearBuffers()
       resetSemBufferUsed()
@@ -178,7 +190,8 @@ class AudioGphone: NSObject {
     }
     guard audioEngine.isRunning else {
       //logger.error("audio engine is not running")
-      return true
+      return reject("AudioGphone", "audio engine is not running",nil)
+
     }
     if playerNode.isPlaying {
     //   logger.debug("--> stopping player")
@@ -186,7 +199,7 @@ class AudioGphone: NSObject {
     //   logger.debug("<-- stopping player")
       isPaused = false
     }
-    return true
+        resolve("Player stop!")
   }
 
   func pause() -> Bool {
@@ -214,8 +227,8 @@ class AudioGphone: NSObject {
   }
 
 
-  @objc(writePlayAudio:)
-  func writePlayAudio(base64String: String) -> Void {
+  @objc(writePlay:)
+  func writePlay(base64String: String) -> Void {
 //   func feed(data: [UInt8], onDone: @escaping (_ r: Bool) -> Void) {
 
     // var nsData = NSData(base64Encoded: base64String, options: .ignoreUnknownCharacters)!
@@ -223,9 +236,7 @@ class AudioGphone: NSObject {
 
 
 
-    var nsdata = NSData(base64Encoded: base64String, options: .ignoreUnknownCharacters)!
-        var data = [UInt8](nsdata as Data)  
-        nsdata.getBytes(&data)
+    
       
 
 
@@ -239,6 +250,12 @@ class AudioGphone: NSObject {
      // onDone(true)
       return
     }
+
+
+    var nsdata = NSData(base64Encoded: base64String, options: .ignoreUnknownCharacters)!
+    var data = [UInt8](nsdata as Data)  
+    nsdata.getBytes(&data)
+
 
     queAddBuffer.async {
       //self.logger.debug("--> queAddBuffer")
@@ -262,14 +279,18 @@ class AudioGphone: NSObject {
     }
   }
 
-  func setVolume(_ volume: Float) -> Bool {
+ @objc(setVolumePlay:resolve:rejecter:)
+  func setVolumePlay(volume: Float,
+        resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock) {
+
     guard audioEngine.isRunning else {
       //logger.error("audio engine is not running")
-      return false
+     return reject("AudioGphone", "audio engine is not running",nil)
     }
     playerNode.volume = volume
     audioEngine.reset()
-    return true
+    resolve(volume)
   }
 
   // ---------------------------------------------------------------------------

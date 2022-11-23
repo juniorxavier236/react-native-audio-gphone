@@ -18,14 +18,16 @@ const AudioGphone = NativeModules.AudioGphone
     );
 
 
- export function initPlayAudio(options) {
-  return AudioGphone.initPlayAudio(options);
-}
-
-export function writePlayAudio(base64){
-  return AudioGphone.writePlayAudio(base64);
-}
 
 
+const Audio = {};
 
+Audio.initPlay = options => AudioGphone.initPlay(options);
+Audio.startPlay = () => AudioGphone.startPlay();
+Audio.stopPlay = () => AudioGphone.stopPlay();
+Audio.writePlay = base64 => AudioGphone.writePlay(base64);
+Audio.setVolumePlay = options => AudioGphone.setVolumePlay(options);
+
+
+export default Audio;
 
