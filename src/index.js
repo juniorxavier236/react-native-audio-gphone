@@ -27,6 +27,11 @@ Audio.startPlay = () => AudioGphone.startPlay();
 Audio.stopPlay = () => AudioGphone.stopPlay();
 Audio.writePlay = base64 => AudioGphone.writePlay(base64);
 Audio.setVolumePlay = options => AudioGphone.setVolumePlay(options);
+if(Platform.OS === 'android'){
+  Audio.setSpeakerphoneOn = options => AudioGphone.setSpeakerphoneOn(options);
+}
+
+
 
 
 export default Audio;

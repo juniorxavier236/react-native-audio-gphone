@@ -30,11 +30,14 @@ import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
+import android.content.Context;
+
 
 @ReactModule(name = AudioGphoneModule.NAME)
 public class AudioGphoneModule extends ReactContextBaseJavaModule {
   public static final String NAME = "AudioGphone";
 
+  private AudioManager audioManager;
 
   private static AudioTrack audioTrack;
 
@@ -45,6 +48,8 @@ public class AudioGphoneModule extends ReactContextBaseJavaModule {
 
   public AudioGphoneModule(ReactApplicationContext reactContext) {
     super(reactContext);
+    audioManager = ((AudioManager) reactContext.getSystemService(Context.AUDIO_SERVICE));
+
     if (audioPlay != null) {
       audioPlay.stop();
       audioPlay.release();
@@ -62,16 +67,26 @@ public class AudioGphoneModule extends ReactContextBaseJavaModule {
   public void initPlay(final ReadableMap options) {
       Thread playThread = new Thread(new Runnable() {
           public void run() {
-              // int streamType = AudioManager.STREAM_MUSIC;
+              //int streamType = AudioManager.STREAM_MUSIC;
               int streamType = AudioManager.STREAM_VOICE_CALL;
+              if (audioManager != null) {
+
+                audioManager.setMode(AudioManager.MODE_IN_CALL);
+                //audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), 0);
+                audioManager.setSpeakerphoneOn(true);
+              }
+
+
+            
 
               int sampleRateInHz = 8000;
               int channelConfig = AudioFormat.CHANNEL_OUT_MONO;
               int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
-              int mode = AudioTrack.MODE_STREAM;
-              if (options.hasKey("streamType")) {
-                  streamType = options.getInt("streamType");
-              }
+               int mode = AudioTrack.MODE_STREAM;
+              //int mode = AudioTrack.MODE_STATIC
+            //   if (options.hasKey("streamType")) {
+            //       streamType = options.getInt("streamType");
+            //   }
               ;
               // if (options.hasKey("bitsPerChannel")) {
               // int bitsPerChannel = options.getInt("bitsPerChannel");
@@ -143,12 +158,15 @@ public class AudioGphoneModule extends ReactContextBaseJavaModule {
   }
 
 
-  // @ReactMethod
-  // public void setSpeakerphoneOn(final boolean enable) {
-  //     if (enable != audioManager.isSpeakerphoneOn())  {
-  //         audioManager.setSpeakerphoneOn(enable);
-  //     }
-  // }
+  @ReactMethod
+  public void setSpeakerphoneOn(final boolean enable) {
+
+    //   if (enable != manager.isSpeakerphoneOn())  {
+          if (audioManager != null) {
+            audioManager.setSpeakerphoneOn(enable);
+          }
+    //   }
+  }
 
   // @ReactMethod
   // public void setSpeakerphoneon(final boolean enable) {
