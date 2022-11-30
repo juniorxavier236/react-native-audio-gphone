@@ -32,7 +32,6 @@ import android.util.Log;
 
 import android.content.Context;
 
-
 @ReactModule(name = AudioGphoneModule.NAME)
 public class AudioGphoneModule extends ReactContextBaseJavaModule {
   public static final String NAME = "AudioGphone";
@@ -68,14 +67,9 @@ public class AudioGphoneModule extends ReactContextBaseJavaModule {
       Thread playThread = new Thread(new Runnable() {
           public void run() {
               //int streamType = AudioManager.STREAM_MUSIC;
-              int streamType = AudioManager.STREAM_VOICE_CALL;
-              if (audioManager != null) {
-
-                audioManager.setMode(AudioManager.MODE_IN_CALL);
-                //audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), 0);
-                audioManager.setSpeakerphoneOn(true);
-              }
-
+               int streamType = AudioManager.STREAM_VOICE_CALL;
+              //int streamType = AudioManager.STREAM_SYSTEM;
+           
 
             
 
@@ -121,6 +115,17 @@ public class AudioGphoneModule extends ReactContextBaseJavaModule {
               audioPlay = new AudioTrack(streamType, sampleRateInHz, channelConfig, audioFormat, bufferSizeTrack,
                       mode);
               audioPlay.play();
+
+              if (audioManager != null) {
+
+                
+
+                audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+                //audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), 0);
+                audioManager.setSpeakerphoneOn(true);
+              }
+
+
           }
       });
 
